@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <!-- Definición del juego de caracteres UTF-8 para soporte completo de acentos y caracteres en español -->
+  <meta charset="UTF-8">
+  
+  <!-- Configuración de escala responsiva optimizada para dispositivos móviles (pantallas táctiles) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  
+  <!-- Definición del título oficial de la aplicación móvil Ruby's Burger -->
+  <title>Ruby's Burger - Mobile App</title>
+  
+  <!-- Color de la barra de estado en navegadores móviles (Chrome Android / Safari iOS) -->
+  <meta name="theme-color" content="#D90429">
+  
+  <!-- Metadatos de aplicación móvil para iOS (Capacidad de App Web instalable) -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Ruby's Burger">
+  
+  <!-- Enlace al manifiesto de la aplicación web progresiva (PWA) -->
+  <link rel="manifest" href="manifest.json">
+  
+  <!-- Importación de tipografías modernas de Google Fonts: 'Poppins' para textos y 'Bebas Neue' para títulos gastronómicos -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Enlace a la hoja de estilos externa del diseño de la aplicación móvil -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ========================================================================= -->
+  <!-- CONTENEDOR PRINCIPAL: SIMULADOR DE PANTALLA MÓVIL (FRAME RESPONSIVO)     -->
+  <!-- ========================================================================= -->
+  <div class="device-container" id="deviceContainer">
+    
+    <!-- Barra superior de estado ficticia tipo Smartphone (Hora, Señal, Batería) -->
+    <header class="mobile-status-bar">
+      <span class="status-time" id="statusClock">12:30</span>
+      <div class="status-notch"></div>
+      <div class="status-icons">
+        <span class="icon-signal" title="Señal">📶</span>
+        <span class="icon-wifi" title="Wi-Fi">🛜</span>
+        <span class="icon-battery" title="Batería">🔋 100%</span>
+      </div>
+    </header>
+
+    <!-- Barra de Navegación Superior de la Aplicación (Header de la Marca) -->
+    <header class="app-header">
+      <div class="brand-wrapper" onclick="RubyApp.navigateTo('home')">
+        <div class="brand-logo-badge">🍔</div>
+        <div class="brand-text">
+          <h1 class="brand-title">RUBY'S <span>BURGER</span></h1>
+          <p class="brand-slogan">Sabor Artesanal & Fuego Real</p>
+        </div>
+      </div>
+      
+      <!-- Botón de acceso rápido al Carrito con contador interactivo de items -->
+      <button class="cart-trigger-btn" id="btnHeaderCart" onclick="RubyApp.navigateTo('order')" aria-label="Ver Carrito">
+        <span class="cart-icon">🛒</span>
+        <span class="cart-badge" id="cartCountBadge">0</span>
+      </button>
+    </header>
+
+    <!-- ===================================================================== -->
+    <!-- ÁREA DE CONTENIDO DINÁMICO: PANTALLAS MODULARES DE LA APLICACIÓN     -->
+    <!-- ===================================================================== -->
+    <main class="app-main-content">
+      
+      <!-- ------------------------------------------------------------------- -->
+      <!-- PANTALLA 1: DASHBOARD PRINCIPAL (HOME) CON LOS 4 BOTONES OBLIGATORIOS -->
+      <!-- ------------------------------------------------------------------- -->
+      <section id="view-home" class="app-view active">
+        <!-- Banner promocional interactivo / Hero Slider -->
+        <article class="hero-promo-card">
+          <div class="hero-overlay"></div>
+          <div class="hero-content">
+            <span class="hero-tag">🔥 ESPECIALIDAD DE LA SEMANA</span>
+            <h2 class="hero-title">RUBY MONSTER DOUBLE SMASH</h2>
+            <p class="hero-desc">Doble carne premium 120g, queso cheddar fundido, tocineta crujiente y salsa secreta.</p>
+            <button class="hero-btn-cta" onclick="RubyApp.openDirectProductModal(1)">Pedir Ahora • $8.99</button>
+          </div>
+        </article>
+
+        <!-- SECCIÓN CENTRAL OBLIGATORIA: MENÚ PRINCIPAL CON LOS 4 BOTONES DE PROCESOS -->
+        <section class="main-menu-section">
+          <div class="section-heading">
+            <h3 class="section-title">PANEL DE OPERACIONES</h3>
+            <p class="section-subtitle">Selecciona el proceso que deseas realizar:</p>
+          </div>
+
+          <div class="four-buttons-grid">
+            
+            <!-- BOTÓN 1 OBLIGATORIO: VER MENÚ (Catálogo de productos y especialidades) -->
+            <button class="process-btn btn-menu" onclick="RubyApp.navigateTo('menu')" id="btnMenuPrincipal">
+              <div class="btn-icon-wrapper">
+                <span class="process-emoji">📋</span>
+              </div>
+              <div class="btn-info-wrapper">
+                <span class="process-number">PROCESO 01</span>
+                <h4 class="process-name">Ver Menú</h4>
+                <p class="process-detail">Catálogo completo de hamburguesas, sides y bebidas</p>
+              </div>
+              <span class="btn-arrow">➔</span>
+            </button>
+
+            <!-- BOTÓN 2 OBLIGATORIO: HACER PEDIDO (Proceso interactivo y configuración de orden) -->
+            <button class="process-btn btn-order" onclick="RubyApp.navigateTo('order')" id="btnHacerPedido">
+              <div class="btn-icon-wrapper">
+                <span class="process-emoji">🛍️</span>
+              </div>
+              <div class="btn-info-wrapper">
+                <span class="process-number">PROCESO 02</span>
+                <h4 class="process-name">Hacer Pedido</h4>
+                <p class="process-detail">Configuración personalizada de tu orden y checkout</p>
+              </div>
+              <span class="btn-arrow">➔</span>
+            </button>
+
+            <!-- BOTÓN 3 OBLIGATORIO: ESTATUS DEL PEDIDO (Seguimiento en tiempo real) -->
+            <button class="process-btn btn-status" onclick="RubyApp.navigateTo('status')" id="btnEstatusPedido">
+              <div class="btn-icon-wrapper">
+                <span class="process-emoji">🛵</span>
+              </div>
+              <div class="btn-info-wrapper">
+                <span class="process-number">PROCESO 03</span>
+                <h4 class="process-name">Estatus del Pedido</h4>
+                <p class="process-detail">Rastreo en vivo de tu orden desde la parrilla hasta tu mesa</p>
+              </div>
+              <span class="btn-arrow">➔</span>
+            </button>
+
+            <!-- BOTÓN 4 OBLIGATORIO: CONTACTO Y UBICACIÓN (Zona de servicio y atención) -->
+            <button class="process-btn btn-contact" onclick="RubyApp.navigateTo('contact')" id="btnContactoUbicacion">
+              <div class="btn-icon-wrapper">
+                <span class="process-emoji">📍</span>
+              </div>
+              <div class="btn-info-wrapper">
+                <span class="process-number">PROCESO 04</span>
+                <h4 class="process-name">Contacto y Ubicación</h4>
+                <p class="process-detail">Horarios, sucursal física, cobertura delivery y WhatsApp</p>
+              </div>
+              <span class="btn-arrow">➔</span>
+            </button>
+
+          </div>
+        </section>
+
+        <!-- Sección de Accesos Rápidos a Especialidades Destacadas -->
+        <section class="featured-section">
+          <div class="section-header-inline">
+            <h3 class="section-title">TOP VENTAS HOY</h3>
+            <button class="view-all-link" onclick="RubyApp.navigateTo('menu')">Ver todo</button>
+          </div>
+          <div class="featured-cards-carousel" id="featuredItemsContainer">
+            <!-- Renderizado dinámico desde app.js -->
+          </div>
+        </section>
+
+        <!-- Información de estado de la sucursal (Abierto / Tiempos estimados) -->
+        <aside class="store-status-banner">
+          <div class="status-pulse-dot"></div>
+          <div class="store-status-text">
+            <strong>Sucursal Principal Activa:</strong> Abierto hasta las 11:30 PM • Tiempo promedio de entrega: <strong>25 - 35 min</strong>
+          </div>
+        </aside>
+      </section>
+
+      <!-- ------------------------------------------------------------------- -->
+      <!-- PANTALLA 2: CATÁLOGO Y ESPECIALIDADES (BOTÓN 1: VER MENÚ)           -->
+      <!-- ------------------------------------------------------------------- -->
+      <section id="view-menu" class="app-view">
+        <div class="view-header-bar">
+          <button class="back-btn" onclick="RubyApp.navigateTo('home')">← Volver</button>
+          <h2 class="view-title">Nuestro Menú</h2>
+          <span class="header-action-badge">Ficha 01</span>
+        </div>
+
+        <!-- Barra de búsqueda en tiempo real de productos -->
+        <div class="menu-search-container">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="menuSearchInput" placeholder="Buscar por nombre o ingrediente..." oninput="RubyApp.filterMenuSearch(this.value)">
+          <button class="clear-search-btn" id="btnClearSearch" onclick="RubyApp.clearMenuSearch()" style="display:none;">✕</button>
+        </div>
+
+        <!-- Filtros horizontales por categorías de alimentos -->
+        <nav class="category-pills-nav" id="categoryFilterContainer">
+          <button class="cat-pill active" onclick="RubyApp.filterCategory('all', this)">🔥 Todo</button>
+          <button class="cat-pill" onclick="RubyApp.filterCategory('burgers', this)">🍔 Burgers</button>
+          <button class="cat-pill" onclick="RubyApp.filterCategory('sides', this)">🍟 Acompañantes</button>
+          <button class="cat-pill" onclick="RubyApp.filterCategory('drinks', this)">🥤 Bebidas</button>
+          <button class="cat-pill" onclick="RubyApp.filterCategory('desserts', this)">🍦 Postres</button>
+        </nav>
+
+        <!-- Cuadrícula interactiva de productos del catálogo -->
+        <div class="products-grid-catalog" id="productsCatalogContainer">
+          <!-- Se inyecta dinámicamente mediante app.js -->
+        </div>
+      </section>
+
+      <!-- ------------------------------------------------------------------- -->
+      <!-- PANTALLA 3: PROCESO INTERACTIVO DE ORDEN (BOTÓN 2: HACER PEDIDO)    -->
+      <!-- ------------------------------------------------------------------- -->
+      <section id="view-order" class="app-view">
+        <div class="view-header-bar">
+          <button class="back-btn" onclick="RubyApp.navigateTo('home')">← Volver</button>
+          <h2 class="view-title">Hacer Pedido</h2>
+          <span class="header-action-badge">Ficha 02</span>
+        </div>
+
+        <!-- Contenedor del Carrito Activo y Configuración de Entrega -->
+        <div class="order-workflow-container">
+          
+          <!-- Lista de Items en la Orden -->
+          <div class="order-items-card">
+            <div class="card-header-flex">
+              <h3 class="card-title">Resumen de tu Orden</h3>
+              <button class="clear-cart-link" onclick="RubyApp.clearCart()">Vaciar cesta</button>
+            </div>
+            
+            <div class="cart-items-list" id="cartItemsList">
+              <!-- Renderizado dinámico de items o mensaje de cesta vacía -->
+            </div>
+          </div>
+
+          <!-- Selector de Modo de Entrega (Delivery vs Retiro en Local) -->
+          <div class="delivery-mode-card">
+            <h3 class="card-title">Modalidad de Entrega</h3>
+            <div class="mode-selector-tabs">
+              <label class="mode-tab active" id="tabDelivery">
+                <input type="radio" name="deliveryType" value="delivery" checked onchange="RubyApp.setDeliveryMode('delivery')">
+                <span class="tab-icon">🛵</span>
+                <span class="tab-label">A Domicilio (Delivery)</span>
+                <span class="tab-cost">+$2.00</span>
+              </label>
+              <label class="mode-tab" id="tabPickup">
+                <input type="radio" name="deliveryType" value="pickup" onchange="RubyApp.setDeliveryMode('pickup')">
+                <span class="tab-icon">🏪</span>
+                <span class="tab-label">Retiro en Local (Pick-up)</span>
+                <span class="tab-cost">Gratis</span>
+              </label>
+            </div>
+
+            <!-- Formulario de datos del cliente y destino -->
+            <form id="orderCheckoutForm" onsubmit="RubyApp.submitOrder(event)" class="checkout-form">
+              <div class="form-group" id="addressFieldGroup">
+                <label for="custAddress">Dirección exacta de entrega:</label>
+                <input type="text" id="custAddress" placeholder="Ej: Av. Central #123, Apto 4B, Ruby Town" required>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label for="custName">Nombre de quien recibe:</label>
+                  <input type="text" id="custName" placeholder="Tu nombre" required>
+                </div>
+                <div class="form-group">
+                  <label for="custPhone">Teléfono de contacto:</label>
+                  <input type="tel" id="custPhone" placeholder="Ej: +1 555 123 4567" required>
+                </div>
+              </div>
+
+              <!-- Método de Pago -->
+              <div class="form-group">
+                <label for="paymentMethod">Método de pago:</label>
+                <select id="paymentMethod" required>
+                  <option value="cash">💵 Efectivo contra entrega</option>
+                  <option value="card">💳 Tarjeta de Débito / Crédito al repartidor</option>
+                  <option value="transfer">📱 Pago Móvil / Transferencia Bancaria Directa</option>
+                </select>
+              </div>
+
+              <!-- Indicaciones Especiales para Cocina / Repartidor -->
+              <div class="form-group">
+                <label for="orderNotes">Notas adicionales para la cocina o repartidor:</label>
+                <textarea id="orderNotes" rows="2" placeholder="Ej: Tocar timbre 2 veces, salsas extra aparte, servilletas..."></textarea>
+              </div>
+
+              <!-- Desglose Financiero de la Orden -->
+              <div class="financial-summary-card">
+                <div class="summary-line">
+                  <span>Subtotal productos:</span>
+                  <span id="summarySubtotal">$0.00</span>
+                </div>
+                <div class="summary-line">
+                  <span>Costo de envío:</span>
+                  <span id="summaryDeliveryFee">$2.00</span>
+                </div>
+                <div class="summary-line">
+                  <span>Impuestos (IVA 8%):</span>
+                  <span id="summaryTax">$0.00</span>
+                </div>
+                <div class="summary-line total-line">
+                  <strong>Total a Pagar:</strong>
+                  <strong class="total-amount" id="summaryTotal">$0.00</strong>
+                </div>
+              </div>
+
+              <!-- Botón principal de Confirmación de Orden -->
+              <button type="submit" class="btn-confirm-order" id="btnSubmitOrder">
+                <span>Confirmar y Enviar a Cocina 🚀</span>
+              </button>
+            </form>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ------------------------------------------------------------------- -->
+      <!-- PANTALLA 4: ESTATUS EN VIVO DEL PEDIDO (BOTÓN 3: ESTATUS DEL PEDIDO) -->
+      <!-- ------------------------------------------------------------------- -->
+      <section id="view-status" class="app-view">
+        <div class="view-header-bar">
+          <button class="back-btn" onclick="RubyApp.navigateTo('home')">← Volver</button>
+          <h2 class="view-title">Estatus del Pedido</h2>
+          <span class="header-action-badge">Ficha 03</span>
+        </div>
+
+        <div class="status-tracking-wrapper">
+          
+          <!-- Buscador o selector de Número de Orden Activo -->
+          <div class="order-lookup-card">
+            <label for="lookupOrderInput">Consultar número de orden:</label>
+            <div class="lookup-input-group">
+              <input type="text" id="lookupOrderInput" placeholder="Ej: RB-9821">
+              <button onclick="RubyApp.searchOrderByInput()" class="btn-lookup">Buscar</button>
+            </div>
+          </div>
+
+          <!-- Tarjeta de Información Principal de la Orden Activa -->
+          <div class="active-order-card" id="activeOrderDisplay">
+            
+            <div class="order-badge-row">
+              <span class="order-code" id="lblOrderCode">RB-8420</span>
+              <span class="order-state-pill" id="lblOrderStateText">En Preparación</span>
+            </div>
+
+            <!-- Contador de Tiempo Estimado -->
+            <div class="timer-countdown-box">
+              <div class="timer-icon">⏱️</div>
+              <div class="timer-info">
+                <span class="timer-caption">Tiempo estimado de entrega:</span>
+                <span class="timer-digits" id="lblCountdownTimer">24:18 min</span>
+              </div>
+            </div>
+
+            <!-- STEPPER VISUAL INTERACTIVO DE 4 ETAPAS DEL PEDIDO -->
+            <div class="stepper-progress-container">
+              
+              <!-- Etapa 1 -->
+              <div class="step-item completed" id="step1">
+                <div class="step-marker">✓</div>
+                <div class="step-details">
+                  <h4 class="step-title">1. Pedido Recibido</h4>
+                  <p class="step-desc">Confirmado y recibido en el sistema de caja de Ruby's.</p>
+                  <small class="step-timestamp" id="step1Time">Hace 5 min</small>
+                </div>
+              </div>
+
+              <!-- Etapa 2 -->
+              <div class="step-item current" id="step2">
+                <div class="step-marker">🔥</div>
+                <div class="step-details">
+                  <h4 class="step-title">2. En la Parrilla</h4>
+                  <p class="step-desc">Nuestros parrilleros están preparando tus hamburguesas al carbón.</p>
+                  <small class="step-timestamp" id="step2Time">En proceso ahora</small>
+                </div>
+              </div>
+
+              <!-- Etapa 3 -->
+              <div class="step-item pending" id="step3">
+                <div class="step-marker">📦</div>
+                <div class="step-details">
+                  <h4 class="step-title">3. Empacado & Asignado</h4>
+                  <p class="step-desc">Sellado térmico para mantener la frescura y calor del producto.</p>
+                  <small class="step-timestamp" id="step3Time">Pendiente</small>
+                </div>
+              </div>
+
+              <!-- Etapa 4 -->
+              <div class="step-item pending" id="step4">
+                <div class="step-marker">🏁</div>
+                <div class="step-details">
+                  <h4 class="step-title">4. En Camino / Entregado</h4>
+                  <p class="step-desc">El repartidor se encuentra en ruta hacia tu ubicación.</p>
+                  <small class="step-timestamp" id="step4Time">Pendiente</small>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Tarjeta del Repartidor Asignado -->
+            <div class="courier-card" id="courierCardBox">
+              <div class="courier-avatar">🛵</div>
+              <div class="courier-info">
+                <h4 class="courier-name" id="lblCourierName">Carlos "Ray" Méndez</h4>
+                <p class="courier-vehicle">Repartidor Oficial Ruby's • Moto Honda Roja</p>
+                <div class="courier-rating">⭐ 4.9 (420 entregas)</div>
+              </div>
+              <a href="tel:+15559876543" class="btn-call-courier" title="Llamar repartidor">📞</a>
+            </div>
+
+            <!-- Botón simulador de progreso para demostración de cambios de fase -->
+            <div class="demo-actions-box">
+              <button class="btn-advance-demo" onclick="RubyApp.advanceOrderStatusDemo()">
+                ⚡ Simular Avance de Estado de Pedido
+              </button>
+            </div>
+
+          </div>
+
+          <!-- Mensaje alternativo cuando no hay orden activa -->
+          <div class="no-order-card" id="noOrderMessage" style="display: none;">
+            <div class="no-order-icon">🍔</div>
+            <h3>No tienes pedidos activos en curso</h3>
+            <p>¡Arma tu orden y disfruta de la mejor hamburguesa de la ciudad!</p>
+            <button class="btn-go-order" onclick="RubyApp.navigateTo('menu')">Ir al Menú</button>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ------------------------------------------------------------------- -->
+      <!-- PANTALLA 5: CONTACTO Y UBICACIÓN (BOTÓN 4: CONTACTO Y UBICACIÓN)     -->
+      <!-- ------------------------------------------------------------------- -->
+      <section id="view-contact" class="app-view">
+        <div class="view-header-bar">
+          <button class="back-btn" onclick="RubyApp.navigateTo('home')">← Volver</button>
+          <h2 class="view-title">Contacto y Sucursal</h2>
+          <span class="header-action-badge">Ficha 04</span>
+        </div>
+
+        <div class="contact-view-wrapper">
+          
+          <!-- Tarjeta de Ubicación Física y Zona de Cobertura -->
+          <div class="info-card location-card">
+            <div class="card-icon-header">
+              <span class="icon-circle">📍</span>
+              <div>
+                <h3 class="card-title">Sucursal Principal Ruby's Burger</h3>
+                <p class="card-sub">Distrito Gourmet, Av. de las Brasas #404</p>
+              </div>
+            </div>
+
+            <!-- Simulación Interactiva de Mapa con Cobertura y Pines -->
+            <div class="map-simulation-container">
+              <div class="map-grid-overlay"></div>
+              <div class="map-radar-circle"></div>
+              <div class="map-marker-store">
+                <span class="pin-badge">🍔 Sede Central</span>
+              </div>
+              <div class="map-delivery-radius">
+                <span class="radius-label">Radio de Cobertura Rápida (8 Km)</span>
+              </div>
+            </div>
+
+            <p class="coverage-note">
+              🛵 <strong>Zona de entrega garantizada:</strong> Centro, Zona Norte, Distrito Financiero y Colinas del Sol. (Tiempo promedio 30 min).
+            </p>
+          </div>
+
+          <!-- Tarjeta de Horarios de Atención -->
+          <div class="info-card hours-card">
+            <div class="card-icon-header">
+              <span class="icon-circle">🕒</span>
+              <div>
+                <h3 class="card-title">Horarios de Operación</h3>
+                <p class="card-sub">Servicio en mesa, pick-up y delivery</p>
+              </div>
+            </div>
+            <ul class="hours-list">
+              <li><span>Lunes a Jueves:</span> <strong>12:00 PM – 10:30 PM</strong></li>
+              <li><span>Viernes y Sábados:</span> <strong>12:00 PM – 12:00 AM (Medianoche)</strong></li>
+              <li><span>Domingos Familiares:</span> <strong>12:00 PM – 10:00 PM</strong></li>
+            </ul>
+          </div>
+
+          <!-- Canales de Atención Directa (WhatsApp, Llamada, Soporte) -->
+          <div class="info-card channels-card">
+            <h3 class="card-title">Canales de Atención Inmediata</h3>
+            <p class="card-sub">¿Tienes dudas con tu pedido o un evento especial?</p>
+
+            <div class="contact-actions-grid">
+              <!-- Enlace directo a WhatsApp -->
+              <a href="https://wa.me/15551234567?text=Hola%20Ruby's%20Burger,%20deseo%20hacer%20una%20consulta" target="_blank" class="channel-btn whatsapp-btn">
+                <span class="channel-icon">💬</span>
+                <div class="channel-desc">
+                  <strong>WhatsApp de Pedidos</strong>
+                  <span>+1 (555) 123-4567 (Chat en vivo)</span>
+                </div>
+              </a>
+
+              <!-- Botón de llamada telefónica -->
+              <a href="tel:+15557829287" class="channel-btn phone-btn">
+                <span class="channel-icon">📞</span>
+                <div class="channel-desc">
+                  <strong>Línea Telefónica Directa</strong>
+                  <span>(555) RUBY-BURGER</span>
+                </div>
+              </a>
+
+              <!-- Correo de Atención / Eventos -->
+              <a href="mailto:pedidos@rubysburger.com" class="channel-btn email-btn">
+                <span class="channel-icon">✉️</span>
+                <div class="channel-desc">
+                  <strong>Correo Electrónico</strong>
+                  <span>pedidos@rubysburger.com</span>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- Formulario de Mensajería y Feedback Directo -->
+          <div class="info-card feedback-card">
+            <h3 class="card-title">Envíanos un Mensaje</h3>
+            <form onsubmit="RubyApp.handleContactForm(event)" class="contact-feedback-form">
+              <div class="form-group">
+                <label for="contactSenderName">Tu nombre:</label>
+                <input type="text" id="contactSenderName" placeholder="Escribe tu nombre" required>
+              </div>
+              <div class="form-group">
+                <label for="contactSenderEmail">Correo o teléfono:</label>
+                <input type="text" id="contactSenderEmail" placeholder="Para responderte" required>
+              </div>
+              <div class="form-group">
+                <label for="contactMessage">Tu mensaje o felicitación:</label>
+                <textarea id="contactMessage" rows="3" placeholder="¿En qué podemos ayudarte?" required></textarea>
+              </div>
+              <button type="submit" class="btn-send-contact">Enviar Mensaje 📨</button>
+            </form>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ===================================================================== -->
+    <!-- BARRA INFERIOR DE NAVEGACIÓN MÓVIL (TAB BAR NATIVA)                  -->
+    <!-- ===================================================================== -->
+    <nav class="bottom-tab-bar">
+      <button class="tab-item active" id="tabNavHome" onclick="RubyApp.navigateTo('home')">
+        <span class="tab-icon">🏠</span>
+        <span class="tab-text">Inicio</span>
+      </button>
+      <button class="tab-item" id="tabNavMenu" onclick="RubyApp.navigateTo('menu')">
+        <span class="tab-icon">🍔</span>
+        <span class="tab-text">Menú</span>
+      </button>
+      <button class="tab-item" id="tabNavOrder" onclick="RubyApp.navigateTo('order')">
+        <span class="tab-icon">🛍️</span>
+        <span class="tab-text">Pedido</span>
+        <span class="tab-badge" id="tabCartBadge" style="display:none;">0</span>
+      </button>
+      <button class="tab-item" id="tabNavStatus" onclick="RubyApp.navigateTo('status')">
+        <span class="tab-icon">🛵</span>
+        <span class="tab-text">Estatus</span>
+      </button>
+      <button class="tab-item" id="tabNavContact" onclick="RubyApp.navigateTo('contact')">
+        <span class="tab-icon">📍</span>
+        <span class="tab-text">Contacto</span>
+      </button>
+    </nav>
+
+    <!-- ===================================================================== -->
+    <!-- MODAL INTERACTIVO DE PERSONALIZACIÓN DE PRODUCTO                     -->
+    <!-- ===================================================================== -->
+    <div class="modal-backdrop" id="productModalBackdrop" style="display:none;" onclick="RubyApp.closeProductModal(event)">
+      <div class="modal-sheet" onclick="event.stopPropagation()">
+        
+        <header class="modal-sheet-header">
+          <button class="modal-close-btn" onclick="RubyApp.closeProductModal()">✕</button>
+          <h3 class="modal-sheet-title" id="modalProductTitle">Personaliza tu Hamburguesa</h3>
+        </header>
+
+        <div class="modal-sheet-body" id="modalProductContent">
+          <!-- Se inyecta la información del producto y opciones de personalización -->
+        </div>
+
+        <footer class="modal-sheet-footer">
+          <div class="modal-qty-control">
+            <button class="qty-btn" onclick="RubyApp.decreaseModalQty()">-</button>
+            <span class="qty-display" id="modalQtyDisplay">1</span>
+            <button class="qty-btn" onclick="RubyApp.increaseModalQty()">+</button>
+          </div>
+          <button class="btn-add-modal-cart" id="modalAddToCartBtn" onclick="RubyApp.confirmModalAddToCart()">
+            Agregar al Pedido • <span id="modalFinalPrice">$0.00</span>
+          </button>
+        </footer>
+
+      </div>
+    </div>
+
+    <!-- Sistema de Notificaciones Toast Flotantes -->
+    <div class="toast-notification" id="toastBox">
+      <span class="toast-icon" id="toastIcon">🍔</span>
+      <span class="toast-message" id="toastMessage">Acción completada con éxito</span>
+    </div>
+
+  </div> <!-- Fin .device-container -->
+
+  <!-- Enlace al archivo principal de lógica JavaScript -->
+  <script src="app.js"></script>
+</body>
+</html>
