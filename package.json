@@ -1,0 +1,27 @@
+{
+  "name": "ruby-sburguer",
+  "version": "1.0.0",
+  "description": "Aplicación móvil desarrollada con una arquitectura basada en **procesos operacionales y fichas técnicas**, diseñada para el negocio de comida rápida **Ruby's Burger**. Proporciona una experiencia de usuario rápida, fluida y con diseño *Mobile-First*, accesible desde cualquier navegador web y preparada para su instalación como Aplicación Web Progresiva (**PWA**).",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node --watch server/server.js",
+    "test": "node server/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yosberma/Ruby-sBurguer.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/yosberma/Ruby-sBurguer/issues"
+  },
+  "homepage": "https://github.com/yosberma/Ruby-sBurguer#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.3.0"
+  }
+}

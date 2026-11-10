@@ -1,13 +1,22 @@
 {
-  "name": "Ruby's Burger - Mobile App",
-  "short_name": "Ruby's Burger",
-  "description": "Aplicación móvil oficial de comida rápida Ruby's Burger. Pide tus hamburguesas favoritas con seguimiento en tiempo real.",
+  "name": "Ruby's Burger & Dogs - POS & Control",
+  "short_name": "Ruby's POS",
+  "description": "Sistema móvil de Punto de Venta, Control de Inventario y Gastos para el personal de Ruby's Burger & Dogs",
   "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#12131C",
+  "orientation": "portrait-primary",
+  "background_color": "#0E1015",
   "theme_color": "#D90429",
+  "lang": "es",
+  "categories": ["business", "food", "productivity"],
   "icons": [
+    {
+      "src": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=180&q=80",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
     {
       "src": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=192&q=80",
       "sizes": "192x192",
